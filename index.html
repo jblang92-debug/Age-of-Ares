@@ -114,6 +114,17 @@
   #netbar[hidden]{display:none}#netbar.bad{border-color:#ff6a50;color:#ffb0a2}
   body.compact #netbar{top:44px}
   body.online #btn-pause,body.online #btn-speed{display:none}
+  #bench{position:absolute;left:10px;bottom:10px;z-index:8;width:min(430px,62%);background:rgba(20,10,6,.9);border:1px solid var(--accent);border-radius:12px;padding:8px 10px;color:#ffe9d2;font:12.5px system-ui,sans-serif;display:flex;flex-direction:column;gap:6px}
+  #bench[hidden]{display:none}
+  #bench .bn-top,#bench .bn-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  #bench select{flex:1;min-height:34px;background:#140a06;color:#ffe9d2;border:1px solid var(--line2);border-radius:8px;font-size:14px;font-weight:700}
+  #bench button{min-height:32px;min-width:0;padding:0 10px;font-size:12px}
+  #bench button.on{border-color:var(--accent);background:#6b3a1c}
+  #bench .bn-sub{opacity:.75;font-size:11.5px}#bench .bn-c{opacity:.7}
+  #bench .bn-anim{color:#9dffb8;min-height:15px;font-size:12px}
+  body.bench #panel,body.bench #sidecol{display:none}
+  body.compact #bench{width:min(400px,70%);padding:6px 8px;font-size:11px}
+  body.compact #bench button{min-height:28px;padding:0 7px}
   #panel .batch{min-width:0;padding:0 10px;font-weight:700}
   #panel .batch.on{border-color:var(--accent);color:var(--accent)}
   #mapframe{padding:4px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;box-shadow:0 6px 22px #000a}
@@ -369,6 +380,7 @@
   <div id="blitz" hidden></div>
   <div id="scen" hidden></div>
   <div id="netbar" hidden></div>
+  <div id="bench" hidden></div>
   <div id="rbar" hidden><span id="rb-t"></span><button id="rb-speed">×1</button><button id="rb-pause">II</button><button id="rb-quit">Quitter</button></div>
   <div id="top">
     <div id="res">
@@ -435,7 +447,7 @@
         <div class="opt"><span>Faction</span><div class="seg" data-opt="faction">
           <button data-v="0">Arès<i>blindés lourds</i></button><button data-v="1">Boréale<i>vitesse, aviation</i></button><button data-v="2">Australe<i>infanterie, 8×8</i></button><button data-v="3">Solaris<i>défense anti-air</i></button></div></div>
         <div class="opt"><span>Défis</span><div class="seg" id="seg-scen">
-          <button data-scen="tuto">Tutoriel<i>pas à pas</i></button><button data-scen="defense">Défense<i>tenir 5 min</i></button><button data-scen="raid">Raid<i>4 min pour frapper</i></button><button data-scen="course">Course<i>ère 3 en 12 min</i></button></div></div>
+          <button data-scen="tuto">Tutoriel<i>pas à pas</i></button><button data-scen="defense">Défense<i>tenir 5 min</i></button><button data-scen="raid">Raid<i>4 min pour frapper</i></button><button data-scen="course">Course<i>ère 3 en 12 min</i></button><button data-scen="banc">Atelier<i>animations</i></button></div></div>
       </section>
       <section class="mpage" data-page="carte"><h3>Carte</h3>
         <div class="mapbox"><canvas id="menu-map" width="200" height="200"></canvas>
