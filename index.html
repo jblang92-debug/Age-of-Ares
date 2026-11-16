@@ -84,6 +84,36 @@
   #units-table table{border-collapse:collapse;font-size:11px;width:100%}
   #units-table td,#units-table th{padding:3px 5px;border-bottom:1px solid #ffffff18;text-align:left;vertical-align:top}
   #units-table .good{color:#9dffb8}#units-table .bad{color:#ffb0a2}
+  .playrow{display:grid;grid-template-columns:1fr auto;gap:8px}
+  #btn-online{min-height:56px;font-size:13px;letter-spacing:.12em;font-weight:800;border-color:var(--accent);background:linear-gradient(#2c4a66,#1b2f44);color:#d8ecff;padding:0 16px}
+  body.compact #btn-online{min-height:44px;font-size:12px}
+  #online{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(10,5,3,.78);padding:10px;overflow:auto}
+  #online[hidden],#netwait[hidden]{display:none}
+  .on-box{width:min(560px,100%);max-height:100%;overflow:auto;background:rgba(32,18,11,.97);border:1px solid var(--accent);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:9px;color:#ffe9d2;font:13px/1.4 system-ui,sans-serif}
+  .on-box h3{margin:0;font:800 16px Orbitron,sans-serif;letter-spacing:.08em;color:var(--accent)}
+  .on-code{font-size:22px;letter-spacing:.25em;color:#fff;background:#00000055;padding:2px 10px;border-radius:8px;margin-left:6px}
+  .on-help{margin:0;color:#e8c9a8;opacity:.85;font-size:12px}
+  .on-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .on-row.end{justify-content:flex-end}
+  .on-row span{min-width:84px}
+  .on-box input,.on-box select{background:#140a06;color:#ffe9d2;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:14px;min-height:38px}
+  #on-name{flex:1}#on-code{flex:1;text-transform:uppercase;letter-spacing:.3em;font-weight:700}
+  .on-box button{min-height:40px;padding:0 14px}
+  .on-box .on-main{border-color:var(--accent);background:linear-gradient(#8a4d27,#6a3a1e);font-weight:700}
+  .on-box .on-main[disabled]{opacity:.4}
+  .on-status{margin:0;min-height:18px;color:#9dffb8}.on-status.bad{color:#ffb0a2}
+  .on-slots{border-collapse:collapse;width:100%}
+  .on-slots th{font-size:11px;text-align:left;opacity:.7;padding:2px 4px}
+  .on-slots td{padding:4px;border-top:1px solid #ffffff18}
+  .on-slots tr.me td{background:#ff9a2e18}.on-slots tr.off td{opacity:.6}
+  .on-slots select{min-height:32px;padding:4px 6px;font-size:13px;max-width:130px}
+  .on-slots .ok{color:#9dffb8}.on-slots .dim,.on-box .dim{opacity:.6}
+  #netwait{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);z-index:41;background:rgba(20,10,6,.9);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;color:#ffe9d2;font:13px system-ui,sans-serif;text-align:center;max-width:90%}
+  #netwait button{margin-top:8px}
+  #netbar{position:absolute;top:58px;left:50%;transform:translateX(-50%);z-index:7;background:rgba(20,10,6,.86);border:1px solid var(--line2);border-radius:10px;padding:4px 12px;color:#ffd9b0;font:12px system-ui,sans-serif;pointer-events:none}
+  #netbar[hidden]{display:none}#netbar.bad{border-color:#ff6a50;color:#ffb0a2}
+  body.compact #netbar{top:44px}
+  body.online #btn-pause,body.online #btn-speed{display:none}
   #panel .batch{min-width:0;padding:0 10px;font-weight:700}
   #panel .batch.on{border-color:var(--accent);color:var(--accent)}
   #mapframe{padding:4px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;box-shadow:0 6px 22px #000a}
@@ -145,7 +175,7 @@
   #menu-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s;pointer-events:none}
   #menu-bg.on{opacity:1}
   #menu-shade{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(10,6,4,.15) 0%,rgba(10,6,4,.6) 60%,rgba(10,6,4,.9) 100%);pointer-events:none}
-  #loading > :not(#menu-bg):not(#menu-shade){position:relative}
+  #loading > :not(#menu-bg):not(#menu-shade):not(#online):not(#netwait){position:relative}
   #logo{width:min(80vw,480px);max-height:28vh;object-fit:contain;filter:drop-shadow(0 8px 26px #000d);display:none}
   #logo.on{display:block}
   #logo.on + h1{display:none}
@@ -338,6 +368,7 @@
   <div id="wondertag" hidden></div>
   <div id="blitz" hidden></div>
   <div id="scen" hidden></div>
+  <div id="netbar" hidden></div>
   <div id="rbar" hidden><span id="rb-t"></span><button id="rb-speed">×1</button><button id="rb-pause">II</button><button id="rb-quit">Quitter</button></div>
   <div id="top">
     <div id="res">
@@ -387,6 +418,8 @@
     <img id="menu-bg" data-ui="menu_bg.jpg" alt=""/><div id="menu-shade"></div>
     <div id="title"><img id="logo" data-ui="logo.png" alt="Age of Ares"/><h1>AGE OF ARES</h1><div class="rule"></div><p>Récolte · Bâtis · Conquiers la planète rouge</p></div>
     <p id="load-sub">CHARGEMENT…</p><div id="track"><div id="bar"></div></div>
+    <div id="online" hidden></div>
+    <div id="netwait" hidden></div>
     <div id="menu">
       <div class="mtabs"><button data-mtab="partie">Partie</button><button data-mtab="carte">Carte</button><button data-mtab="regles">Règles</button></div>
       <div class="mpages">
@@ -427,7 +460,7 @@
       <div id="msum"></div>
       <button id="btn-resume" hidden>Reprendre la partie</button>
       <button id="btn-replay" hidden>Revoir la dernière partie</button>
-      <button id="btn-play">JOUER</button>
+      <div class="playrow"><button id="btn-play">JOUER</button><button id="btn-online">🌐 EN LIGNE</button></div>
       <div class="sub"><button id="btn-how">Comment jouer</button><button id="menu-rot">⟳ Pivoter l'écran</button><button id="menu-sound">♪ Son</button></div>
       <div id="how" hidden><ul>
         <li><b>But :</b> détruire le Centre de commandement adverse.</li>
@@ -438,6 +471,7 @@
         <li><b>Rythme :</b> ⏸ met le jeu en pause (on peut encore donner des ordres), ×1 change la vitesse. La partie est sauvegardée toute seule : « Reprendre la partie » au retour.</li>
         <li><b>Groupes 1 à 5 :</b> sélectionne des unités puis appui long sur un chiffre (clavier : Maj + chiffre) pour enregistrer le groupe ; toucher le chiffre le resélectionne, deux fois de suite centre la caméra dessus.</li>
         <li><b>Production :</b> le bouton ×1 / ×5 lance les unités par lots de 5 (selon la place dans la file et tes réserves). Appui long (ou clic droit) sur une unité, ou ⓘ sur une sélection : sa fiche (vie, dégâts, portée, points forts et faibles).</li>
+        <li><b>En ligne :</b> bouton « EN LIGNE » : crée un salon et envoie le code ou le lien à tes amis (gratuit, sans compte, jusqu'à 4 joueurs). Chacun choisit sa faction et son équipe (même lettre = alliés) ; l'hôte règle la carte et met des IA aux places libres. Si quelqu'un se déconnecte, l'IA joue à sa place jusqu'à son retour (il rouvre simplement le jeu). Garde le jeu au premier plan pendant la partie, surtout si tu es l'hôte.</li>
         <li><b>Défis :</b> onglet Partie, ligne « Défis » : Tutoriel guidé pas à pas, Défense (tenir 5 minutes face aux vagues), Raid (détruire le Centre ennemi en 4 minutes avec une force de frappe), Course (atteindre l'ère 3 en 12 minutes).</li>
         <li><b>Rediffusion :</b> à la fin d'une partie, « Revoir la partie » la rejoue sans brouillard, de ×1 à ×8 ; aussi depuis le menu (« Revoir la dernière partie »).</li>
         <li><b>Vues :</b> C1 et C2 près de la mini-carte : appui long pour enregistrer la vue, toucher pour y revenir. ⤢ agrandit la mini-carte ; appui long dessus : envoyer la sélection à cet endroit.</li>
