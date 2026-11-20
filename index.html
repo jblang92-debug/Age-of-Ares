@@ -84,7 +84,7 @@
   #units-table table{border-collapse:collapse;font-size:11px;width:100%}
   #units-table td,#units-table th{padding:3px 5px;border-bottom:1px solid #ffffff18;text-align:left;vertical-align:top}
   #units-table .good{color:#9dffb8}#units-table .bad{color:#ffb0a2}
-  .playrow{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .playrow{display:grid;grid-template-columns:1fr auto;gap:8px;position:sticky;bottom:4px;z-index:3;padding:6px;margin:0 -6px;border-radius:12px;background:rgba(30,16,9,.94);box-shadow:0 -8px 20px #000a}
   #btn-online{min-height:56px;font-size:13px;letter-spacing:.12em;font-weight:800;border-color:var(--accent);background:linear-gradient(#2c4a66,#1b2f44);color:#d8ecff;padding:0 16px}
   body.compact #btn-online{min-height:44px;font-size:12px}
   #online{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(10,5,3,.78);padding:10px;overflow:auto}
@@ -228,6 +228,16 @@
   #scen b{display:block;color:var(--accent);font:700 11px Orbitron,sans-serif;letter-spacing:.06em;margin-bottom:2px}
   #scen i{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);transition:width .4s}
   #scen.flash{border-color:#9dffb8;box-shadow:0 0 18px #9dffb855}
+  /* Doigt : boutons de groupes assez grands pour être touchés sans erreur. */
+  /* Téléphone tenu droit : la barre du haut passe sur deux lignes au lieu de sortir de l'écran. */
+  @media (max-aspect-ratio: 1/1){ #top{flex-wrap:wrap;row-gap:4px} #top .spacer,#fps{display:none} #sys{margin-left:auto} }
+  #gmenu{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(8,4,2,.62);backdrop-filter:blur(3px)}
+  #gmenu[hidden]{display:none}
+  .gm-box{display:flex;flex-direction:column;gap:10px;min-width:260px;max-width:86vw;padding:20px 22px;border-radius:16px;background:rgba(28,14,8,.96);border:1px solid var(--accent)}
+  .gm-box h3{margin:0 0 4px;font-family:Orbitron,sans-serif;font-size:15px;letter-spacing:.12em;color:var(--accent);text-align:center}
+  .gm-box button{min-height:46px;font-size:14px}
+  .gm-box small{opacity:.7;text-align:center;font-size:11.5px}
+  .gm-box button.warn{border-color:#c0503a;color:#ffb39f}
   #rbar{position:absolute;top:58px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;padding:4px 6px 4px 12px;border-radius:10px;background:rgba(20,10,6,.86);border:1px solid var(--accent);z-index:7}
   #rbar[hidden]{display:none}
   #rbar span{font:700 12px Orbitron,sans-serif;color:#ffd9b0;margin-right:4px}
@@ -367,6 +377,7 @@
   body.compact .seg button{min-height:38px}
   body.compact #btn-play{min-height:44px;font-size:15px}
   body.compact [data-opt=brouillard] i,body.compact [data-opt=duree] i{display:none}
+  @media (pointer: coarse){ body #groups button, body.compact #groups button{min-height:38px;height:38px;font-size:13px} .mapbtn{min-width:38px;min-height:36px;height:36px} }
 </style>
   <script type="module" crossorigin src="./assets/app.js"></script>
 </head>
@@ -394,6 +405,7 @@
     <span class="spacer"></span>
     <span id="fps"></span>
     <div id="sys">
+      <button id="btn-menu" title="Menu de la partie (Échap)">☰</button>
       <button id="btn-pause" title="Pause (P)">II</button>
       <button id="btn-speed" title="Vitesse du jeu">×1</button>
       <button id="btn-quality" title="Qualité graphique">Qualité</button>
@@ -426,6 +438,11 @@
   <div id="hint"></div>
   <button id="btn-rot2">⟳ Pivoter l'écran</button>
   <div id="end"></div>
+  <div id="gmenu" hidden><div class="gm-box"><h3>Partie en cours</h3>
+    <button id="gm-resume">Reprendre</button>
+    <button id="gm-surrender">Abandonner la partie</button>
+    <button id="gm-quit">Quitter vers le menu</button>
+    <small id="gm-note"></small></div></div>
   <div id="loading">
     <img id="menu-bg" data-ui="menu_bg.jpg" alt=""/><div id="menu-shade"></div>
     <div id="title"><img id="logo" data-ui="logo.png" alt="Age of Ares"/><h1>AGE OF ARES</h1><div class="rule"></div><p>Récolte · Bâtis · Conquiers la planète rouge</p></div>
